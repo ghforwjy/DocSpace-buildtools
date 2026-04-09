@@ -309,6 +309,7 @@ services:
       - DASHBOARDS_PASSWORD=${DASHBOARDS_PASSWORD}
     volumes:
       - ${VOLUMES_DIR:+${VOLUMES_DIR}/}log_data:/var/log/onlyoffice
+      - ${CONFIG_DIR:-./config}:/etc/nginx/conf.d
 
 networks:
   default:

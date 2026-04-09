@@ -1,0 +1,18 @@
+services:
+  onlyoffice-router:
+    ports:
+      - "8081:8081"
+      - "8092:8092"
+      - "8099:8099"
+
+  onlyoffice-dotnet-services:
+    ports:
+      - "8050:5050"
+
+  onlyoffice-java-services:
+    ports:
+      - "8051:5050"
+
+  onlyoffice-node-services:
+    ports:
+      - "8052:5050"

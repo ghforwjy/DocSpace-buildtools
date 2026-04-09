@@ -1,3 +1,21 @@
+# (自制) DocSpace Stack 聚合模式 - 二进制挂载版本
+# 基于 docspace-stack.yml 修改
+#
+# 核心原理：
+# 1. 通过 volume 覆盖 Supervisor 配置文件（/etc/supervisor/conf.d/supervisord.conf）
+# 2. 将宿主机源码目录挂载到容器内 BUILD_PATH 目录
+# 3. Supervisor 的 directory 已指向 BUILD_PATH，指向挂载的宿主机目录
+#
+# 使用说明：
+# 1. 先构建基础镜像（用于获取 .NET SDK、Java、Node.js 环境）
+# 2. 在本地编译二进制到各模块的 bin 目录
+# 3. 使用本文件启动服务
+#
+# 注意事项：
+# - 本文件为自制，非 DocSpace 原项目提供
+# - 聚合模式下各服务共享容器，通过 Supervisor 管理
+# - 需要配合 dotnet_services-overcome.conf 使用
+
 x-healthcheck-stack: &x-healthcheck-stack
   test: ["CMD-SHELL", "supervisorctl status | grep -v 'ASC.Migration.Runner' | grep -qv RUNNING && exit 1 || exit 0"]
   interval: 60s
@@ -52,7 +70,6 @@ x-service: &x-service-base
     RABBIT_PROTOCOL: ${RABBIT_PROTOCOL}
     RABBIT_USER_NAME: ${RABBIT_USER_NAME}
     RABBIT_VIRTUAL_HOST: ${RABBIT_VIRTUAL_HOST}
-    RABBIT_URI: ${RABBIT_URI}
     REDIS_DB: ${REDIS_DB}
     REDIS_HOST: ${REDIS_CONTAINER_NAME}
     REDIS_PASSWORD: ${REDIS_PASSWORD}
@@ -83,30 +100,41 @@ x-service: &x-service-base
     SPRING_APPLICATION_ENCRYPTION_SECRET: ${IDENTITY_ENCRYPTION_SECRET}
     SPRING_APPLICATION_SIGNATURE_SECRET: ${APP_CORE_MACHINEKEY}
     SPRING_PROFILES_ACTIVE: ${IDENTITY_PROFILE}
+    BUILD_PATH: ${BUILD_PATH}
+    APP_STORAGE_ROOT: /app/onlyoffice/data
+    PATH_TO_CONF: /app/onlyoffice/config
+    LOG_DIR: /var/log/onlyoffice
   volumes:
     - ${VOLUMES_DIR:+${VOLUMES_DIR}/}app_data:/app/onlyoffice/data
     - ${VOLUMES_DIR:+${VOLUMES_DIR}/}log_data:/var/log/onlyoffice
+    - ${ROOT_DIR}/server:/var/www/server:ro
+    - ${ROOT_DIR}/buildtools/config/appsettings${ENV_EXTENSION:+.${ENV_EXTENSION}}.json:/app/onlyoffice/config/appsettings${ENV_EXTENSION:+.${ENV_EXTENSION}}.json:ro
   healthcheck:
     <<: *x-healthcheck-stack
 
 services:
   onlyoffice-dotnet-services:
     <<: *x-service-base
-    image: "${REPO}/${DOCKER_IMAGE_PREFIX}-dotnet:${DOCKER_TAG}"
+    image: ${Baseimage_Dotnet_Run}
     container_name: ${DOTNET_CONTAINER_NAME}
+    volumes:
+      - ${ROOT_DIR}/buildtools/install/docker/config/supervisor/dotnet_services-overcome.conf:/etc/supervisor/conf.d/supervisord.conf:ro
 
   onlyoffice-java-services:
     <<: *x-service-base
-    image: "${REPO}/${DOCKER_IMAGE_PREFIX}-java:${DOCKER_TAG}"
+    image: ${Baseimage_Java_Run}
     container_name: ${JAVA_CONTAINER_NAME}
 
   onlyoffice-node-services:
     <<: *x-service-base
-    image: "${REPO}/${DOCKER_IMAGE_PREFIX}-node:${DOCKER_TAG}"
+    image: ${Baseimage_Nodejs_Run}
     container_name: ${NODE_CONTAINER_NAME}
+    volumes:
+      - ${ROOT_DIR}/server/common/ASC.Socket.IO/:/var/www/services/ASC.Socket.IO/:ro
+      - ${ROOT_DIR}/server/common/ASC.SsoAuth/:/var/www/services/ASC.SsoAuth/:ro
 
   onlyoffice-router:
-    image: "${REGISTRY}${REPO}/${DOCKER_IMAGE_PREFIX}-router:${DOCKER_TAG}"
+    image: ${Baseimage_Proxy_Run}
     container_name: ${ROUTER_HOST}
     user: "${UID}:${GID}"
     restart: always
@@ -158,6 +186,7 @@ services:
       - WRONG_PORTAL_NAME_URL=${WRONG_PORTAL_NAME_URL}
     volumes:
       - ${VOLUMES_DIR:+${VOLUMES_DIR}/}log_data:/var/log/onlyoffice
+      - ${ROOT_DIR}/client/public:/var/www/public/:ro
 
 networks:
   default:

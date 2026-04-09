@@ -1,0 +1,166 @@
+{
+  "api": {
+    "origin": "http://localhost:8092",
+    "prefix": "/api/2.0",
+    "timeout": 30000
+  },
+  "proxy": {
+    "url": ""
+  },
+  "wrongPortalNameUrl": "",
+  "pdfViewer": false,
+  "pdfViewerUrl": "sdkjs/pdf/src/engine/viewer.js",
+  "imageThumbnails": true,
+  "editor": {
+    "requestClose": false
+  },
+  "management": {
+    "checkDomain": false
+  },
+  "oauth2": {
+    "providers": {}
+  },
+  "files": {
+    "thirdParty": {},
+    "common": {
+      "fastCoedit": false,
+      "storeOriginalFiles": false,
+      "convertOriginalFiles": false,
+      "percentDanger": 90,
+      "chunkSize": 10485760,
+      "chunkUploadSize": 10485760
+    }
+  },
+  "32782": 32782,
+  "32781": 32781,
+  "portalLimit": 2000,
+  "usersInPortal": 2000,
+  "guestRoot": -1,
+  "enableAdmVar": true,
+  "enableZoom": true,
+  "socket": {
+    "url": ""
+  },
+  "reconnectCalls": 3000,
+  "reconnectDocuments": 3000,
+  "updateSystem": false,
+  "warmupUrl": "api/2.0/portal/warmup",
+  "version": "2.5.1",
+  "buildType": "full",
+  "totalSegments": 4,
+  "segment": 0,
+  "app centered": false,
+  "enableRequestLocation": false,
+  "enableMenuInterval": true,
+  "enableConfirmLogout": true,
+  "enableInitializeIfNoVersion": true,
+  "enableForbiddenCompletion": true,
+  "enablePromptLicense": true,
+  "startScreenSize": {
+    "width": 1280,
+    "height": 720
+  },
+  "minMenuWidth": 372,
+  "maxMenuWidth": 550,
+  "leftMenuWidth": 252,
+  "startBugCreate": false,
+  "enableBrowserHistory": true,
+  "startEmail": "",
+  "startSettings": false,
+  "startUser": 2,
+  "confirmDelete": true,
+  "updateDelay": 1000,
+  "completeDelay": 1000,
+  "enableCatalogPrise": true,
+  "warmupDelay": 0,
+  "enableAutoBackup": true,
+  "backupLabels": [
+    "everyday",
+    "everyweek",
+    "everymonth"
+  ],
+  "backupPath": "",
+  "autoBackupDate": 0,
+  "autoBackupTime": "03:00",
+  "backup存储限制": "1.00",
+  "documentAccentColors": [
+    "#525566",
+    "#857气息",
+    "#f43d4e",
+    "#e3120c",
+    "#ff6d3d",
+    "#ff9e4d",
+    "#ffc500",
+    "#f4e325",
+    "#b4d200",
+    "#70b41e",
+    "#00b88b",
+    "#018576",
+    "#00b3bb",
+    "#0090cc",
+    "#006fbb",
+    "#475ca7",
+    "#4a2c8a",
+    "#7742a8",
+    "#b44aad",
+    "#d96570"
+  ],
+  "themes": [
+    "base",
+    "contrast",
+    "dark",
+    " 石板",
+    "理工学院",
+    "焦糖",
+    "灰度",
+    "棉花糖深处"
+  ],
+  "themesOptions": {
+    "Base": {
+      "active": "#475ca7",
+      "hover": "#3f4d8c",
+      "primary": "#1385e2"
+    },
+    "Contrast": {
+      "active": "#ffffff",
+      "hover": "#ffffff",
+      "primary": "#529cff"
+    },
+    "Dark": {
+      "active": "#8d8d8d",
+      "hover": "#6d6d6d",
+      "primary": "#8d97a0"
+    },
+    "Linux": {
+      "active": "#ffffff",
+      "hover": "#f5f5f5",
+      "primary": "#525566"
+    },
+    "Technet": {
+      "active": "#ffffff",
+      "hover": "#f5f5f5",
+      "primary": "#1d452c"
+    },
+    "Caramel": {
+      "active": "#ffffff",
+      "hover": "#f5f5f5",
+      "primary": "#9c6b30"
+    },
+    "Slatelite": {
+      "active": "#ffffff",
+      "hover": "#f5f5f5",
+      "primary": "#767676"
+    },
+    "Gels": {
+      "active": "#ffffff",
+      "hover": "#f5f5f5",
+      "primary": "#a8a8a8"
+    },
+    "Sweets": {
+      "active": "#ffffff",
+      "hover": "#f5f5f5",
+      "primary": "#ff6d3d"
+    }
+  },
+  "product", "product", "product", "product", "product", "product", "product", "product"
+}
