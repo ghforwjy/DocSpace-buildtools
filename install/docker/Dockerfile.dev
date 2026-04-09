@@ -28,4 +28,4 @@ RUN echo "--- install runtime node.22 for dev ---" && \
 
 USER onlyoffice
 EXPOSE 5050
-CMD ["tail", "-f", "/dev/null"]
+CMD ["python3", "docker-entrypoint.py"]
