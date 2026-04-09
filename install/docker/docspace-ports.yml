@@ -16,5 +16,3 @@ services:
   onlyoffice-node-services:
     ports:
       - "8052:5050"
-    volumes:
-      - /mnt/f/mycode/industry tools/DocSpace/client:/var/www/products/ASC.Management/management:rw

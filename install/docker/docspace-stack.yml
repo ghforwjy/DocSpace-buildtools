@@ -104,9 +104,6 @@ services:
     <<: *x-service-base
     image: "${REPO}/${DOCKER_IMAGE_PREFIX}-node:${DOCKER_TAG}"
     container_name: ${NODE_CONTAINER_NAME}
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
 
   onlyoffice-router:
     image: "${REGISTRY}${REPO}/${DOCKER_IMAGE_PREFIX}-router:${DOCKER_TAG}"
