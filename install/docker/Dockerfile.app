@@ -176,9 +176,12 @@ ENTRYPOINT ["python3", "docker-entrypoint.py"]
 
 FROM node:22-slim AS noderun
 ARG BUILD_PATH
-ARG SRC_PATH 
+ARG SRC_PATH
 ENV BUILD_PATH=${BUILD_PATH}
 ENV SRC_PATH=${SRC_PATH}
+ARG HTTP_PROXY=http://host.docker.internal:7897
+ARG HTTPS_PROXY=http://host.docker.internal:7897
+ARG NO_PROXY=localhost,127.0.0.1
 
 RUN echo "--- install runtime node.22 ---" && \
     mkdir -p /var/log/onlyoffice && \
@@ -190,7 +193,7 @@ RUN echo "--- install runtime node.22 ---" && \
     chown onlyoffice:onlyoffice /var/www -R && \
     chown onlyoffice:onlyoffice /run -R && \
     apt-get -y update && \
-    apt-get install -yq \ 
+    apt-get install -yq \
     sudo \
     nano \
     curl \
@@ -198,6 +201,7 @@ RUN echo "--- install runtime node.22 ---" && \
     supervisor \
     python3-pip && \
     pip3 install --upgrade --break-system-packages jsonpath-ng multipledispatch netaddr netifaces requests && \
+    npm install -g pnpm@10.20.0 && \
     echo "--- clean up ---" && \
     rm -rf \
     /var/lib/apt/lists/* \

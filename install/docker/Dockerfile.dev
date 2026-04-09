@@ -1,0 +1,31 @@
+FROM node:22-slim
+ARG BUILD_PATH
+ARG SRC_PATH
+ENV BUILD_PATH=${BUILD_PATH}
+ENV SRC_PATH=${SRC_PATH}
+
+RUN echo "--- install runtime node.22 for dev ---" && \
+    mkdir -p /var/log/onlyoffice && \
+    mkdir -p /app/onlyoffice/data && \
+    addgroup --system --gid 107 onlyoffice && \
+    adduser -uid 104 --quiet --home /var/www/onlyoffice --system --gid 107 onlyoffice && \
+    chown onlyoffice:onlyoffice /app/onlyoffice -R && \
+    chown onlyoffice:onlyoffice /var/log -R  && \
+    chown onlyoffice:onlyoffice /var/www -R && \
+    chown onlyoffice:onlyoffice /run -R && \
+    apt-get -y update && \
+    apt-get install -yq \
+    sudo \
+    nano \
+    curl \
+    vim \
+    supervisor \
+    python3-pip && \
+    pip3 install --upgrade --break-system-packages jsonpath-ng multipledispatch netaddr netifaces requests && \
+    npm install -g pnpm@10.20.0 --registry=https://registry.npmmirror.com && \
+    echo "--- clean up ---" && \
+    rm -rf /var/lib/apt/lists/* /tmp/*
+
+USER onlyoffice
+EXPOSE 5050
+CMD ["tail", "-f", "/dev/null"]

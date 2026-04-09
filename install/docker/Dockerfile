@@ -119,9 +119,12 @@ ENTRYPOINT ["python3", "docker-entrypoint.py"]
 
 FROM node:22-slim as noderun
 ARG BUILD_PATH
-ARG SRC_PATH 
+ARG SRC_PATH
 ENV BUILD_PATH=${BUILD_PATH}
 ENV SRC_PATH=${SRC_PATH}
+ARG HTTP_PROXY=http://host.docker.internal:7897
+ARG HTTPS_PROXY=http://host.docker.internal:7897
+ARG NO_PROXY=localhost,127.0.0.1
 
 RUN mkdir -p /var/log/onlyoffice && \
     mkdir -p /app/onlyoffice/data && \
@@ -131,12 +134,13 @@ RUN mkdir -p /var/log/onlyoffice && \
     chown onlyoffice:onlyoffice /var/log -R  && \
     chown onlyoffice:onlyoffice /var/www -R && \
     apt-get -y update && \
-    apt-get install -yq \ 
+    apt-get install -yq \
     nano \
     curl \
     vim \
     python3-pip && \
     pip3 install --upgrade jsonpath-ng multipledispatch netaddr netifaces requests --break-system-packages && \
+    npm install -g pnpm@10.20.0 && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=base --chown=onlyoffice:onlyoffice /app/onlyoffice/config/* /app/onlyoffice/config/
