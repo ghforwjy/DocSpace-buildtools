@@ -5,6 +5,7 @@
 		"SyncTimeout": 60000,		
 		"ConnectRetry": 2,
 		"Database": 0,
+		"Password": "easydocs_redis_2025",
 		"Hosts": [
 		{
 			"Host": "127.0.0.1",

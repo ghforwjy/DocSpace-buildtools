@@ -5,12 +5,24 @@ services:
     restart: always
     expose:
       - "6379"
+    command: >
+      redis-server
+      --appendonly yes
+      --appendfsync everysec
+      --requirepass ${REDIS_PASSWORD:-easydocs_redis_2025}
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-easydocs_redis_2025}", "ping"]
       interval: 10s
       retries: 3
       start_period: 10s
       timeout: 10s
+
+volumes:
+  redis_data:
 
 networks:
   default:

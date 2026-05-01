@@ -1,8 +1,8 @@
 {
   "RabbitMQ": {
     "Hostname": "localhost",
-    "UserName": "guest",
-    "Password": "guest",
+    "UserName": "onlyoffice",
+    "Password": "onlyoffice_rabbitmq_2025",
     "Port": 5672,
     "VirtualHost": "/"
   }
